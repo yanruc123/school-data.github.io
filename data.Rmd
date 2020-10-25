@@ -1,0 +1,36 @@
+---
+title: "data"
+author: "NACC"
+output: github_document
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## by analysis
+
+```{r echo=FALSE, results='hide',message=FALSE}
+library(tidyverse)
+library(plotly)
+bu_data <- read_csv("data/bu.csv", guess_max = 1001)#, col_types = cols(level_difficulty = col_integer()))
+#bu_data <- read.csv("data/bu.csv", col_types = cols_only(prof_name = col_character(), school = col_character(), course_name = col_character(), rate_prof = col_double(), level_difficulty = col_double(), take_again = col_character(), attendence = col_character(), comments = col_character(), hw_level = col_integer()))
+```
+
+
+```{r echo=FALSE,message=FALSE}
+bu_data %>% ggplot(aes(x=hw_level)) + geom_bar(width=0.7)
+p <- bu_data %>% filter(tDept =="Physics department") %>% filter(str_detect(course_name, "PY")) %>% group_by(course_name) %>% summarise(avg_diff = mean(level_difficulty), avg_hw = mean(hw_level)) %>% ggplot(aes(x=avg_diff, y=avg_hw, color = course_name)) + geom_point() + labs(x = "average difficulty", y = "average hw level")
+
+ggplotly(p)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
