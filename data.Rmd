@@ -1,36 +1,73 @@
 ---
 title: "data"
-author: "NACC"
-output: github_document
+author: "NACC Yanru Chen"
+output:     
+  html_document:
+    toc: true
+    number_sections: true
 ---
 
-```{r setup, include=FALSE, message=FALSE}
+```{r setup, include=FALSE, message=FALSE, warning = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## by analysis
 
-```{r echo=FALSE, results='hide',message=FALSE}
+```{r echo=FALSE, results='hide',message=FALSE, warning = FALSE}
 library(tidyverse)
 library(plotly)
 bu_data <- read_csv("data/bu.csv", guess_max = 1001)#, col_types = cols(level_difficulty = col_integer()))
 #bu_data <- read.csv("data/bu.csv", col_types = cols_only(prof_name = col_character(), school = col_character(), course_name = col_character(), rate_prof = col_double(), level_difficulty = col_double(), take_again = col_character(), attendence = col_character(), comments = col_character(), hw_level = col_integer()))
 ```
 
+```{r echo=FALSE, results='hide', message=FALSE}
+dept <- bu_data %>% distinct(tDept) %>% filter(!is.na(tDept))
+```
+
+
+# professor results {.tabset .tabset-dropdown}
+
+```{r, mtcars-plots, message=FALSE, echo=FALSE, warning = FALSE, results='asis'}
+for (i in 1:(nrow(dept)-67)) {
+  
+  x <- dept[i,]
+  x <- x[[1]]
+  cat('\n\n## `', x, '`\n\n')
+  
+  gg <- bu_data %>% filter(tDept == x) %>% group_by(prof_name) %>% summarise(avg_rating=mean(rate_prof), avg_diff = mean(level_difficulty)) %>% plot_ly(x = ~avg_rating, y = ~avg_diff, color = ~prof_name) 
+  
+  gg <- gg %>% layout(xaxis = list(title = "average raing"), yaxis = list (title = "average difficulty"))
+  
+  print(htmltools::tagList(gg))
+  
+  cat("\n\n")
+}
+```
+
+
+
+## Architecture department
 
 ```{r echo=FALSE,message=FALSE}
-bu_data %>% ggplot(aes(x=hw_level)) + geom_bar(width=0.7)
-p <- bu_data %>% filter(tDept =="Physics department") %>% filter(str_detect(course_name, "PY")) %>% group_by(course_name) %>% summarise(avg_diff = mean(level_difficulty), avg_hw = mean(hw_level)) %>% ggplot(aes(x=avg_diff, y=avg_hw, color = course_name)) + geom_point() + labs(x = "average difficulty", y = "average hw level")
+phy_prof <- bu_data %>% filter(tDept == "Architecture department") %>% group_by(prof_name) %>% summarise(avg_rating=mean(rate_prof), avg_diff = mean(level_difficulty)) %>% ggplot(aes(x=avg_rating, y=avg_diff, color=prof_name)) + geom_point() + labs(y = "average difficulty", x = "average rating")  + scale_colour_discrete("professor")
 
-ggplotly(p)
+ggplotly(phy_prof)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+# Course results {.tabset .tabset-dropdown}
 
-```{r pressure, echo=FALSE}
-
+```{r, mtcars-plots2, message=FALSE, echo=FALSE, warning = FALSE, results='asis'}
+for (i in 1:(nrow(dept)-67)) {
+  x <- dept[i,]
+  x <- x[[1]]
+  cat('\n\n## `', x, '`\n\n')
+  
+  gg <- bu_data %>% filter(tDept == x) %>% group_by(course_name) %>% summarise(avg_diff = mean(level_difficulty), avg_hw = mean(hw_level)) %>% plot_ly(x = ~avg_hw, y = ~avg_diff, color = ~course_name) 
+  
+  gg <- gg %>% layout(xaxis = list(title = "average homework lvl"), yaxis = list (title = "average difficulty"))
+  
+  print(htmltools::tagList(gg))
+  
+  cat("\n\n")
+}
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

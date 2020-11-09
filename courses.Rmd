@@ -1,0 +1,41 @@
+---
+title: "courses"
+author: "NACC"
+output:     
+  html_document:
+    toc: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r echo=FALSE, results='hide',message=FALSE}
+library(tidyverse)
+library(plotly)
+bu_data <- read_csv("data/bu.csv", guess_max = 1001)
+```
+
+```{r echo=FALSE, results='hide', message=FALSE}
+dept <- bu_data %>% distinct(tDept) %>% filter(!is.na(tDept))
+```
+
+# Course results {.tabset .tabset-dropdown}
+
+```{r, mtcars-plots2, message=FALSE, echo=FALSE, warning = FALSE, results='asis'}
+for (i in 1:(nrow(dept)-67)) {
+  x <- dept[i,]
+  x <- x[[1]]
+  cat('\n\n## `', x, '`\n\n')
+  
+  gg <- bu_data %>% filter(tDept == x) %>% group_by(course_name) %>% summarise(avg_diff = mean(level_difficulty), avg_hw = mean(hw_level)) %>% plot_ly(x = ~avg_hw, y = ~avg_diff, color = ~course_name) 
+  
+  gg <- gg %>% layout(xaxis = list(title = "average homework lvl"), yaxis = list (title = "average difficulty"))
+  
+  print(htmltools::tagList(gg))
+  
+  cat("\n\n")
+}
+```
