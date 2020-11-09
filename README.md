@@ -1,1 +1,1 @@
-see deployment: 
+see deployment: https://yanrucbu.github.io/school-data.github.io/
