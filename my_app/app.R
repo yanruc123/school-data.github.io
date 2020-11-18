@@ -41,7 +41,7 @@ ui <- navbarPage("NACC",
                                plotlyOutput("distPlot2"))
                            )
                  ),
-                 tabPanel( "Rank by Professor",
+                 tabPanel( "Highest ranked professor by each course",
                            fluidRow(
                              column(4,
                                     selectInput(inputId = "dept3", label = "dept", choices = dept, multiple = FALSE, selected = "Accounting department")
