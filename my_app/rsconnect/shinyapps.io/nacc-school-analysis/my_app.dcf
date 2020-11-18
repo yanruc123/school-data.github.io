@@ -1,0 +1,10 @@
+name: my_app
+title:
+username:
+account: nacc-school-analysis
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3254682
+bundleId: 3873970
+url: https://nacc-school-analysis.shinyapps.io/my_app/
+when: 1605662684.26653

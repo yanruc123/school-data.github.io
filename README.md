@@ -1,1 +1,1 @@
-see deployment: https://yanrucbu.github.io/school-data.github.io/
+see deployment: https://nacc-school-analysis.shinyapps.io/my_app/
