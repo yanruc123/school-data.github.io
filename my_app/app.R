@@ -55,13 +55,13 @@ ui <- navbarPage("NACC",
 
 server <- function(input, output) {
   output$distPlot <- renderPlotly({
-    p <- phy_prof %>% filter(tDept == input$dept) %>% ggplot(aes_string(x = "avg_rating", y = "avg_diff", color = "prof_name")) + geom_point()
+    p <- phy_prof %>% filter(tDept == input$dept) %>% ggplot(aes_string(x = "avg_rating", y = "avg_diff", color = "prof_name")) + geom_point() + xlab("average rating") + ylab("average difficulty")  + labs(color='professor') 
     ggplotly(p) %>% 
       partial_bundle()
   })
   
   output$distPlot2 <- renderPlotly({
-    p <- courses_rate %>% filter(tDept == input$dept2) %>% ggplot(aes_string(x = "avg_hw_lvl", y = "avg_diff", color = "course_name")) + geom_point() 
+    p <- courses_rate %>% filter(tDept == input$dept2) %>% ggplot(aes_string(x = "avg_hw_lvl", y = "avg_diff", color = "course_name")) + geom_point() + xlab("average homework level") + ylab("average difficulty")  + labs(color='course name') 
     ggplotly(p) %>% 
       partial_bundle()
   })
