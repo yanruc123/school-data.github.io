@@ -22,7 +22,7 @@ The main code for the project is written in R and involves several steps includi
 
 ## Deployment
 
-The project is deployed on GitHub Pages and can be accessed [here](https://yanrucbu.github.io/school-data.github.io/). The data analysis pages can be found [here](https://interactive-graph.shinyapps.io/school-datagithub/) and [here](https://interactive-graph.shinyapps.io/psudata-visualization/).
+The project is deployed on GitHub Pages and can be accessed [here](https://github.com/yanruc123/school-data.github.io/). The data analysis pages can be found [here](https://interactive-graph.shinyapps.io/school-datagithub/) and [here](https://interactive-graph.shinyapps.io/psudata-visualization/).
 
 ## Contributing
 
