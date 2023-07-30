@@ -1,4 +1,4 @@
-# School Data Analysis Project
+# School Data Analysis
 
 This project is a comprehensive analysis of school and course data, providing valuable insights into various aspects of the educational system. The project is hosted on GitHub and deployed using Jekyll.
 
